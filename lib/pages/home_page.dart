@@ -26,6 +26,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // Method to delete the note from the list
+  void deleteNote(int index) {
+    setState(() {
+      notes.removeAt(index);
+    });
+  }
+
   // Function to handle navigation to the AddNotePage and get the new note
   Future<void> _navigateToAddNotePage(BuildContext context) async {
     final newNote = await Navigator.pushNamed(context, '/addNote') as Note?;
@@ -42,13 +49,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text('ToDo App', style: Theme.of(context).textTheme.headlineSmall),
+        title: const Text('ToDo App'),
       ),
       body: notes.isEmpty
           ? const Center(
               child: Text('Brak notatek'),
             )
+
+          // list of notes
           : ListView.builder(
               itemCount: notes.length,
               itemBuilder: (context, index) {
@@ -57,14 +65,20 @@ class _HomePageState extends State<HomePage> {
                   content: notes[index].content,
                   isDone: notes[index].isDone,
                   onChanged: (value) => checkBoxChanged(value, index),
+                  onDelete: () => deleteNote(index),
                 );
               },
             ),
+
+      // buttor redirect to AddNotePage
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _navigateToAddNotePage(context);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
       ),
     );
   }

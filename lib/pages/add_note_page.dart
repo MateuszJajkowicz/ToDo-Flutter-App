@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo/models/note_model.dart'; // Import the Note class
+import 'package:todo/models/note_model.dart';
 
 class AddNotePage extends StatelessWidget {
   final TextEditingController titleController = TextEditingController();
@@ -11,8 +11,7 @@ class AddNotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text('Add Note', style: Theme.of(context).textTheme.headlineSmall),
+        title: const Text('Add Note'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -26,6 +25,7 @@ class AddNotePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // title of note
                 TextField(
                   controller: titleController,
                   decoration: const InputDecoration(
@@ -33,6 +33,8 @@ class AddNotePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16.0),
+
+                // content of note
                 TextField(
                   controller: contentController,
                   maxLines: null,
@@ -41,12 +43,20 @@ class AddNotePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    // Save the new note and go back to the HomePage
-                    saveNoteAndGoBack(context);
-                  },
-                  child: const Text('Save'),
+
+                // save button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Save the new note and go back to the HomePage
+                      saveNoteAndGoBack(context);
+                    },
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
                 ),
               ],
             ),
