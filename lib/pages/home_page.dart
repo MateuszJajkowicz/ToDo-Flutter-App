@@ -26,6 +26,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // Function to handle navigation to the AddNotePage and get the new note
+  Future<void> _navigateToAddNotePage(BuildContext context) async {
+    final newNote = await Navigator.pushNamed(context, '/addNote') as Note?;
+
+    // Check if the new note is not null (it means the user saved the note)
+    if (newNote != null) {
+      setState(() {
+        notes.add(newNote); // Add the new note to the list
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/addNote');
+          _navigateToAddNotePage(context);
         },
         child: const Icon(Icons.add),
       ),

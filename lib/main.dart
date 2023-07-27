@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'ToDo App',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xfff1e5bc),
-            iconTheme: IconThemeData(color: Color(0xff1b2639)),
-            elevation: 0),
+          backgroundColor: Color(0xfff1e5bc),
+          iconTheme: IconThemeData(color: Color(0xff1b2639)),
+          elevation: 0,
+        ),
         scaffoldBackgroundColor: const Color(0xff1b2639),
         textTheme: const TextTheme(
           headlineSmall:
@@ -26,12 +27,26 @@ class MyApp extends StatelessWidget {
           bodySmall: TextStyle(color: Color(0xff1b2639)),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color(0xFFd8914c), elevation: 0),
+          backgroundColor: Color(0xFFd8914c),
+          elevation: 0,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          labelStyle: TextStyle(
+            color: Color(0xFFd8914c),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFd8914c)),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFd8914c)),
+        ),
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/addNote': (context) => const AddNotePage(),
+        '/addNote': (context) => AddNotePage(),
       },
     );
   }

@@ -4,9 +4,10 @@ class ToDoTile extends StatelessWidget {
   final String title;
   final String content;
   final bool isDone;
-  Function(bool?)? onChanged;
+  final Function(bool?)? onChanged;
 
-  ToDoTile({
+  const ToDoTile({
+    super.key,
     required this.title,
     required this.content,
     required this.isDone,
