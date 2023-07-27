@@ -12,13 +12,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ToDo App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xfff1e5bc),
+            iconTheme: IconThemeData(color: Color(0xff1b2639)),
+            elevation: 0),
+        scaffoldBackgroundColor: const Color(0xff1b2639),
+        textTheme: const TextTheme(
+          headlineSmall:
+              TextStyle(color: Color(0xff1b2639), fontWeight: FontWeight.bold),
+          bodySmall: TextStyle(color: Color(0xff1b2639)),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color(0xFFd8914c), elevation: 0),
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const HomePage(),
         '/addNote': (context) => const AddNotePage(),
       },
     );

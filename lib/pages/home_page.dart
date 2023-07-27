@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ToDo App'),
+        title:
+            Text('ToDo App', style: Theme.of(context).textTheme.headlineSmall),
       ),
       body: notes.isEmpty
           ? const Center(

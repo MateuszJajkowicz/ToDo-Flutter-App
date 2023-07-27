@@ -7,7 +7,8 @@ class AddNotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dodaj notatkę'),
+        title: Text('Dodaj notatkę',
+            style: Theme.of(context).textTheme.headlineSmall),
       ),
     );
   }
