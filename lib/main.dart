@@ -41,12 +41,15 @@ class MyApp extends StatelessWidget {
             color: Colors.black,
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFd8914c)),
+            borderSide: BorderSide(
+              color: Color(0xFFd8914c),
+            ),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFd8914c)),
+            backgroundColor: const Color(0xFFd8914c),
+          ),
         ),
         iconTheme: const IconThemeData(
           color: Color(0xFFd8914c),

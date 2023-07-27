@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/components/todo_tile.dart';
 import 'package:todo/models/note_model.dart';
+import 'package:todo/services/database_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,27 +11,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Note> notes = [
-    Note(title: 'Title', content: 'Content', isDone: false),
-    Note(
-        title: 'Title2',
-        content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        isDone: true),
-  ]; // Lista przechowująca notatki
+  List<Note> notes = [];
 
-  // checkbox was tapped
-  void checkBoxChanged(bool? value, int index) {
+  final Database _database = Database();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotes(); // Load notes from the database when the page is created
+  }
+
+  // Function to load notes from the database
+  Future<void> _loadNotes() async {
+    final loadedNotes = await _database.readNotes();
     setState(() {
-      notes[index].isDone = !notes[index].isDone;
+      notes = List<Note>.from(loadedNotes);
     });
   }
 
+  // Funciton hangling checkbox tapping
+  void checkBoxChanged(bool? value, int index) async {
+    setState(() {
+      notes[index].isDone = !notes[index].isDone;
+    });
+
+    await _database.writeNotes(notes);
+  }
+
   // Method to delete the note from the list
-  void deleteNote(int index) {
+  void deleteNote(int index) async {
     setState(() {
       notes.removeAt(index);
     });
+    await _database.writeNotes(notes);
   }
 
   // Function to handle navigation to the AddNotePage and get the new note
@@ -40,8 +53,9 @@ class _HomePageState extends State<HomePage> {
     // Check if the new note is not null (it means the user saved the note)
     if (newNote != null) {
       setState(() {
-        notes.add(newNote); // Add the new note to the list
+        notes.add(newNote);
       });
+      _database.writeNotes(notes); // Save the notes to the database
     }
   }
 
@@ -53,10 +67,16 @@ class _HomePageState extends State<HomePage> {
       ),
       body: notes.isEmpty
           ? const Center(
-              child: Text('Brak notatek'),
+              child: Text(
+                'No notes',
+                style: TextStyle(
+                  color: Color(0xFFd8914c),
+                  fontSize: 24,
+                ),
+              ),
             )
 
-          // list of notes
+          // List of notes
           : ListView.builder(
               itemCount: notes.length,
               itemBuilder: (context, index) {
@@ -70,7 +90,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
 
-      // buttor redirect to AddNotePage
+      // Button redirecting to AddNotePage
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _navigateToAddNotePage(context);
