@@ -35,8 +35,8 @@ class CustomDialog extends StatelessWidget {
           buttonType: ButtonType.elevated,
           text: 'Confirm',
           onPressed: () {
-            onConfirm();
             Navigator.pop(context);
+            onConfirm();
           },
         ),
       ],
