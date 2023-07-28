@@ -2,22 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:todo/components/custom_dialog.dart';
 import 'package:todo/components/popup_menu.dart';
 
+import '../models/note_model.dart';
+
 class ToDoTile extends StatelessWidget {
+  final String id;
   final String title;
   final String content;
   final bool isDone;
   final Function(bool?) onChanged;
   final VoidCallback onDelete;
   final VoidCallback onDeleteConfirmed;
+  final Function(String, String) onUpdateNote;
 
   const ToDoTile({
     super.key,
+    required this.id,
     required this.title,
     required this.content,
     required this.isDone,
     required this.onChanged,
     required this.onDelete,
     required this.onDeleteConfirmed,
+    required this.onUpdateNote,
   });
 
   @override
@@ -79,7 +85,18 @@ class ToDoTile extends StatelessWidget {
                     key: buttonKey,
                     onPressed: () {
                       PopupMenu.showPopupMenu(
-                          context, isDone, onChanged, onDelete, buttonKey);
+                        context,
+                        Note(
+                          id: id,
+                          title: title,
+                          content: content,
+                          isDone: isDone,
+                        ),
+                        onChanged,
+                        onDelete,
+                        buttonKey,
+                        onUpdateNote,
+                      );
                     },
                     icon: const Icon(Icons.more_vert),
                   ),

@@ -69,6 +69,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Function to update the title and content of a note
+  void updateNote(int index, String newTitle, String newContent) {
+    setState(() {
+      notes[index].title = newTitle;
+      notes[index].content = newContent;
+    });
+
+    _database.writeNotes(notes);
+    Navigator.pop(context);
+  }
+
   // Function to handle navigation to the AddNotePage and get the new note
   Future<void> _navigateToAddNotePage(BuildContext context) async {
     final newNote = await Navigator.pushNamed(context, '/addNote') as Note?;
@@ -111,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: notes.length,
                   itemBuilder: (context, index) {
                     return ToDoTile(
+                      id: notes[index].id,
                       title: notes[index].title,
                       content: notes[index].content,
                       isDone: notes[index].isDone,
@@ -118,6 +130,8 @@ class _HomePageState extends State<HomePage> {
                       onDelete: () => deleteNote(index, confirmed: false),
                       onDeleteConfirmed: () =>
                           deleteNote(index, confirmed: true),
+                      onUpdateNote: (newTitle, newContent) =>
+                          updateNote(index, newTitle, newContent),
                     );
                   },
                 ),

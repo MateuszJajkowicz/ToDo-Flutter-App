@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:todo/models/note_model.dart';
+import 'package:todo/pages/edit_note_page.dart';
 
 class PopupMenu {
-  static void showPopupMenu(BuildContext context, bool isDone,
-      Function(bool?) onChanged, VoidCallback onDelete, GlobalKey buttonKey) {
+  static void showPopupMenu(
+    BuildContext context,
+    Note note,
+    Function(bool?) onChanged,
+    VoidCallback onDelete,
+    GlobalKey buttonKey,
+    final Function(String, String) onUpdateNote,
+  ) {
     final RenderBox popupButton =
         buttonKey.currentContext!.findRenderObject() as RenderBox;
     final Offset offset = popupButton.localToGlobal(Offset.zero);
@@ -15,7 +23,7 @@ class PopupMenu {
         // isDone checkbox
         PopupMenuItem(
           child: ListTile(
-            leading: isDone
+            leading: note.isDone
                 ? const Icon(
                     Icons.check_box,
                     color: Color(0xFFd8914c),
@@ -26,8 +34,34 @@ class PopupMenu {
                   ),
             title: const Text('Mark as Done'),
             onTap: () {
-              onChanged(!isDone);
+              onChanged(!note.isDone);
               Navigator.pop(context);
+            },
+          ),
+        ),
+
+        // edit icon
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(
+              Icons.edit,
+              color: Color(0xFFd8914c),
+            ),
+            title: const Text('Edit'),
+            onTap: () {
+              // Navigate to EditNotePage when the "Edit" option is tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditNotePage(note: note),
+                ),
+              ).then((updatedNote) {
+                // Handle the updated note data returned from the EditNotePage
+                if (updatedNote != null && updatedNote is Note) {
+                  // Call the onChanged callback to update the note
+                  onUpdateNote(updatedNote.title, updatedNote.content);
+                }
+              });
             },
           ),
         ),

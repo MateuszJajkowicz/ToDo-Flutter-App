@@ -1,8 +1,10 @@
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/components/custom_button.dart';
 import 'package:todo/models/note_model.dart';
 
 class AddNotePage extends StatelessWidget {
+  final uuid = const Uuid();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
 
@@ -103,7 +105,8 @@ class AddNotePage extends StatelessWidget {
       final content = contentController.text;
 
       // Create a new note from the input values
-      final newNote = Note(title: title, content: content, isDone: false);
+      final newNote =
+          Note(id: uuid.v1(), title: title, content: content, isDone: false);
 
       // Get the previous route (HomePage) and pass the new note as a result
       Navigator.pop(context, newNote);
