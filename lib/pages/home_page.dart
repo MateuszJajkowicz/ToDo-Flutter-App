@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage> {
     if (confirmed) {
       Navigator.pop(context);
     }
+    showSnackBar("Note deleted successfully");
   }
 
   // Function to update the title and content of a note
@@ -78,6 +79,7 @@ class _HomePageState extends State<HomePage> {
 
     _database.writeNotes(notes);
     Navigator.pop(context);
+    showSnackBar("Note updated successfully");
   }
 
   // Function to handle navigation to the AddNotePage and get the new note
@@ -90,7 +92,18 @@ class _HomePageState extends State<HomePage> {
         notes.add(newNote);
       });
       _database.writeNotes(notes);
+      showSnackBar("Note added successfully");
     }
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 3),
+        backgroundColor: const Color(0xFFd8914c),
+      ),
+    );
   }
 
   @override
