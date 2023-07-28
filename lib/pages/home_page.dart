@@ -52,18 +52,21 @@ class _HomePageState extends State<HomePage> {
           text: 'Delete Note',
           content: 'Are you sure you want to delete this note?',
           onConfirm: () {
-            handleRemovingNote(index);
+            handleRemovingNote(index, confirmed: true);
           },
         ),
       );
     }
   }
 
-  void handleRemovingNote(int index) {
+  void handleRemovingNote(int index, {confirmed}) {
     setState(() {
       notes.removeAt(index);
     });
     _database.writeNotes(notes);
+    if (confirmed) {
+      Navigator.pop(context);
+    }
   }
 
   // Function to handle navigation to the AddNotePage and get the new note

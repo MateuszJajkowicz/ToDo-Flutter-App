@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todo/components/custom_dialog.dart';
+import 'package:todo/components/popup_menu.dart';
 
 class ToDoTile extends StatelessWidget {
   final String title;
   final String content;
   final bool isDone;
-  final Function(bool?)? onChanged;
+  final Function(bool?) onChanged;
   final VoidCallback onDelete;
   final VoidCallback onDeleteConfirmed;
 
@@ -21,6 +22,8 @@ class ToDoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buttonKey = GlobalKey();
+
     return Dismissible(
       key: Key(title),
       direction: DismissDirection.endToStart,
@@ -56,14 +59,6 @@ class ToDoTile extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  // checkbox
-                  Checkbox(
-                    value: isDone,
-                    onChanged: onChanged,
-                    activeColor: const Color(0xFFd8914c),
-                    checkColor: Colors.black,
-                  ),
-
                   // task name
                   Expanded(
                     // To expand the Text to the left
@@ -79,13 +74,15 @@ class ToDoTile extends StatelessWidget {
                     ),
                   ),
 
-                  // delete button
+                  // Show the popup menu when the IconButton is tapped
                   IconButton(
-                    onPressed: onDelete,
-                    icon: const Icon(
-                      Icons.delete,
-                    ),
-                  )
+                    key: buttonKey,
+                    onPressed: () {
+                      PopupMenu.showPopupMenu(
+                          context, isDone, onChanged, onDelete, buttonKey);
+                    },
+                    icon: const Icon(Icons.more_vert),
+                  ),
                 ],
               ),
 
