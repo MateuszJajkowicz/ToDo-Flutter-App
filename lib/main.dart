@@ -46,6 +46,11 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFd8914c),
+          selectionColor: Color(0xFFd8914c),
+          selectionHandleColor: Color(0xFFd8914c),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFd8914c),
