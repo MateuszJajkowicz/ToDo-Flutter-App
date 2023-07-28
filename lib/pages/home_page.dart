@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Note> notes = [];
+  bool isLoading = true;
 
   final Database _database = Database();
 
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     final loadedNotes = await _database.readNotes();
     setState(() {
       notes = List<Note>.from(loadedNotes);
+      isLoading = false;
     });
   }
 
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         notes.add(newNote);
       });
-      _database.writeNotes(notes); // Save the notes to the database
+      _database.writeNotes(notes);
     }
   }
 
@@ -83,31 +85,39 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('ToDo App'),
       ),
-      body: notes.isEmpty
+      body: isLoading
           ? const Center(
-              child: Text(
-                'No notes',
-                style: TextStyle(
-                  color: Color(0xFFd8914c),
-                  fontSize: 24,
-                ),
+              // Show the spinner while notes are loading
+              child: CircularProgressIndicator(
+                color: Color(0xFFd8914c),
               ),
             )
+          : notes.isEmpty
+              ? const Center(
+                  child: Text(
+                    'No notes',
+                    style: TextStyle(
+                      color: Color(0xFFd8914c),
+                      fontSize: 24,
+                    ),
+                  ),
+                )
 
-          // List of notes
-          : ListView.builder(
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                return ToDoTile(
-                  title: notes[index].title,
-                  content: notes[index].content,
-                  isDone: notes[index].isDone,
-                  onChanged: (value) => checkBoxChanged(value, index),
-                  onDelete: () => deleteNote(index, confirmed: false),
-                  onDeleteConfirmed: () => deleteNote(index, confirmed: true),
-                );
-              },
-            ),
+              // List of notes
+              : ListView.builder(
+                  itemCount: notes.length,
+                  itemBuilder: (context, index) {
+                    return ToDoTile(
+                      title: notes[index].title,
+                      content: notes[index].content,
+                      isDone: notes[index].isDone,
+                      onChanged: (value) => checkBoxChanged(value, index),
+                      onDelete: () => deleteNote(index, confirmed: false),
+                      onDeleteConfirmed: () =>
+                          deleteNote(index, confirmed: true),
+                    );
+                  },
+                ),
 
       // Button redirecting to AddNotePage
       floatingActionButton: FloatingActionButton(
