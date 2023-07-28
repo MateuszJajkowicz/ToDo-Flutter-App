@@ -34,6 +34,7 @@ class AddNotePage extends StatelessWidget {
                 children: [
                   // title of note
                   TextFormField(
+                    autofocus: true,
                     controller: titleController,
                     decoration: const InputDecoration(
                       labelText: 'Title',
