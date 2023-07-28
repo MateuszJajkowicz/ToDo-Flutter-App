@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/components/custom_button.dart';
 import 'package:todo/models/note_model.dart';
 
 class AddNotePage extends StatelessWidget {
@@ -60,19 +61,32 @@ class AddNotePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
 
-                  // save button
                   Align(
                     alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _saveNoteAndGoBack(context);
-                      },
-                      child: const Text(
-                        'Save',
-                        style: TextStyle(color: Colors.black),
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Cancel button
+                        CustomButton(
+                          buttonType: ButtonType.outlined,
+                          text: 'Cancel',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const SizedBox(width: 16),
+
+                        // Save button
+                        CustomButton(
+                          buttonType: ButtonType.elevated,
+                          text: "Save",
+                          onPressed: () {
+                            _saveNoteAndGoBack(context);
+                          },
+                        ),
+                      ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),

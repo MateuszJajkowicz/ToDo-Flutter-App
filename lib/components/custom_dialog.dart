@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/components/custom_button.dart';
 
 class CustomDialog extends StatelessWidget {
   final String text;
@@ -20,31 +21,23 @@ class CustomDialog extends StatelessWidget {
       title: Text(text),
       content: Text(content),
       actions: [
-        OutlinedButton(
+        // cancel button
+        CustomButton(
+          buttonType: ButtonType.outlined,
+          text: 'Cancel',
           onPressed: () {
             Navigator.pop(context);
           },
-          style: ButtonStyle(
-            side: MaterialStateProperty.resolveWith<BorderSide>(
-              (states) {
-                return const BorderSide(color: Color(0xFFd8914c));
-              },
-            ),
-          ),
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: Colors.black),
-          ),
         ),
-        ElevatedButton(
+
+        // confirm button
+        CustomButton(
+          buttonType: ButtonType.elevated,
+          text: 'Confirm',
           onPressed: () {
-            Navigator.pop(context);
             onConfirm();
+            Navigator.pop(context);
           },
-          child: const Text(
-            'Confirm',
-            style: TextStyle(color: Colors.black),
-          ),
         ),
       ],
     );
