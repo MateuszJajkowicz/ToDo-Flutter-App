@@ -7,6 +7,8 @@ class AddNotePage extends StatelessWidget {
 
   AddNotePage({super.key});
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,43 +24,57 @@ class AddNotePage extends StatelessWidget {
               color: const Color(0xfff1e5bc),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // title of note
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    labelText: 'Title',
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-
-                // content of note
-                TextField(
-                  controller: contentController,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    labelText: 'Content',
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-
-                // save button
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Save the new note and go back to the HomePage
-                      saveNoteAndGoBack(context);
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // title of note
+                  TextFormField(
+                    controller: titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'Title',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a title';
+                      }
+                      return null;
                     },
-                    child: const Text(
-                      'Save',
-                      style: TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 16.0),
+
+                  // content of note
+                  TextFormField(
+                    controller: contentController,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      labelText: 'Content',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter the content';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+
+                  // save button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _saveNoteAndGoBack(context);
+                      },
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -66,14 +82,17 @@ class AddNotePage extends StatelessWidget {
     );
   }
 
-  void saveNoteAndGoBack(BuildContext context) {
-    final title = titleController.text;
-    final content = contentController.text;
+  void _saveNoteAndGoBack(BuildContext context) {
+    // Only proceed if the form is valid
+    if (_formKey.currentState!.validate()) {
+      final title = titleController.text;
+      final content = contentController.text;
 
-    // Create a new note from the input values
-    final newNote = Note(title: title, content: content, isDone: false);
+      // Create a new note from the input values
+      final newNote = Note(title: title, content: content, isDone: false);
 
-    // Get the previous route (HomePage) and pass the new note as a result
-    Navigator.pop(context, newNote);
+      // Get the previous route (HomePage) and pass the new note as a result
+      Navigator.pop(context, newNote);
+    }
   }
 }
