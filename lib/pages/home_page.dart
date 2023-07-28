@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/components/custom_dialog.dart';
 import 'package:todo/components/todo_tile.dart';
 import 'package:todo/models/note_model.dart';
 import 'package:todo/services/database_service.dart';
@@ -38,12 +39,29 @@ class _HomePageState extends State<HomePage> {
     await _database.writeNotes(notes);
   }
 
-  // Method to delete the note from the list
-  void deleteNote(int index) async {
+  // Method to delete the note from the list and database
+  void deleteNote(int index, {confirmed}) {
+    if (confirmed) {
+      handleRemovingNote(index);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => CustomDialog(
+          text: 'Delete Note',
+          content: 'Are you sure you want to delete this note?',
+          onConfirm: () {
+            handleRemovingNote(index);
+          },
+        ),
+      );
+    }
+  }
+
+  void handleRemovingNote(int index) {
     setState(() {
       notes.removeAt(index);
     });
-    await _database.writeNotes(notes);
+    _database.writeNotes(notes);
   }
 
   // Function to handle navigation to the AddNotePage and get the new note
@@ -85,7 +103,8 @@ class _HomePageState extends State<HomePage> {
                   content: notes[index].content,
                   isDone: notes[index].isDone,
                   onChanged: (value) => checkBoxChanged(value, index),
-                  onDelete: () => deleteNote(index),
+                  onDelete: () => deleteNote(index, confirmed: false),
+                  onDeleteConfirmed: () => deleteNote(index, confirmed: true),
                 );
               },
             ),

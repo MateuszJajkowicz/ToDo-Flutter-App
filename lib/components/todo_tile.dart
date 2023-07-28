@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/components/custom_dialog.dart';
 
 class ToDoTile extends StatelessWidget {
   final String title;
@@ -6,6 +7,7 @@ class ToDoTile extends StatelessWidget {
   final bool isDone;
   final Function(bool?)? onChanged;
   final VoidCallback onDelete;
+  final VoidCallback onDeleteConfirmed;
 
   const ToDoTile({
     super.key,
@@ -14,6 +16,7 @@ class ToDoTile extends StatelessWidget {
     required this.isDone,
     required this.onChanged,
     required this.onDelete,
+    required this.onDeleteConfirmed,
   });
 
   @override
@@ -28,8 +31,17 @@ class ToDoTile extends StatelessWidget {
         margin: const EdgeInsets.only(top: 24),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
-      onDismissed: (direction) {
-        onDelete();
+      // Use confirmDismiss to show the delete confirmation dialog
+      confirmDismiss: (_) async {
+        return await showDialog(
+          context: context,
+          builder: (context) => CustomDialog(
+            text: 'Delete Note',
+            content: 'Are you sure you want to delete this note?',
+            onConfirm: () =>
+                onDeleteConfirmed(), // Always return true if confirmed
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 24.0, right: 24, top: 24),
