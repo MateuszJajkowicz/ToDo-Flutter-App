@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
           labelStyle: TextStyle(
             fontSize: 18,
-            color: Colors.black,
+            color: Color(0xff1b2639),
           ),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(

@@ -38,6 +38,9 @@ class AddNotePage extends StatelessWidget {
                     controller: titleController,
                     decoration: const InputDecoration(
                       labelText: 'Title',
+                      labelStyle: TextStyle(
+                        color: Color(0xff1b2639),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -54,6 +57,9 @@ class AddNotePage extends StatelessWidget {
                     maxLines: null,
                     decoration: const InputDecoration(
                       labelText: 'Content',
+                      labelStyle: TextStyle(
+                        color: Color(0xff1b2639),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {

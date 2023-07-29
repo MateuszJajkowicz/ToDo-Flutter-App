@@ -32,7 +32,12 @@ class PopupMenu {
                     Icons.check_box_outline_blank,
                     color: Color(0xFFd8914c),
                   ),
-            title: const Text('Mark as Done'),
+            title: const Text(
+              'Mark as Done',
+              style: TextStyle(
+                color: Color(0xff1b2639),
+              ),
+            ),
             onTap: () {
               onChanged(!note.isDone);
               Navigator.pop(context);
@@ -47,7 +52,12 @@ class PopupMenu {
               Icons.edit,
               color: Color(0xFFd8914c),
             ),
-            title: const Text('Edit'),
+            title: const Text(
+              'Edit',
+              style: TextStyle(
+                color: Color(0xff1b2639),
+              ),
+            ),
             onTap: () {
               // Navigate to EditNotePage when the "Edit" option is tapped
               Navigator.push(
@@ -73,7 +83,12 @@ class PopupMenu {
               Icons.delete,
               color: Color(0xFFd8914c),
             ),
-            title: const Text('Delete'),
+            title: const Text(
+              'Delete',
+              style: TextStyle(
+                color: Color(0xff1b2639),
+              ),
+            ),
             onTap: onDelete,
           ),
         ),

@@ -99,7 +99,10 @@ class _HomePageState extends State<HomePage> {
   void showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: const TextStyle(color: Color(0xff1b2639)),
+        ),
         duration: const Duration(seconds: 3),
         backgroundColor: const Color(0xFFd8914c),
       ),
@@ -156,7 +159,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(
           Icons.add,
-          color: Colors.black,
+          color: Color(0xff1b2639),
         ),
       ),
     );

@@ -71,6 +71,7 @@ class ToDoTile extends StatelessWidget {
                     child: Text(
                       title,
                       style: TextStyle(
+                        color: const Color(0xff1b2639),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         decoration: isDone
@@ -107,6 +108,7 @@ class ToDoTile extends StatelessWidget {
               Text(
                 content,
                 style: TextStyle(
+                  color: const Color(0xff1b2639),
                   fontSize: 16,
                   decoration:
                       isDone ? TextDecoration.lineThrough : TextDecoration.none,

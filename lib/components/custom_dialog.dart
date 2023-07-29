@@ -18,8 +18,18 @@ class CustomDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: const Color(0xfff1e5bc),
       elevation: 2,
-      title: Text(text),
-      content: Text(content),
+      title: Text(
+        text,
+        style: const TextStyle(
+          color: Color(0xff1b2639),
+        ),
+      ),
+      content: Text(
+        content,
+        style: const TextStyle(
+          color: Color(0xff1b2639),
+        ),
+      ),
       actions: [
         // cancel button
         CustomButton(
